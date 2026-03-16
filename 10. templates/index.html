@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FQE Dashboard</title>
+    <style>
+        body { background-color: #0f172a; color: white; font-family: sans-serif; padding: 20px; }
+        .score-card { text-align: center; border: 2px solid #38bdf8; padding: 20px; border-radius: 15px; }
+        .data-grid { display: flex; justify-content: space-between; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="score-card">
+        <h1>EUR/USD</h1>
+        <div id="score" style="font-size: 3em;">--</div>
+        <p>Score Probabilístico</p>
+    </div>
+    <div id="signals" class="data-grid"></div>
+    <script>
+        setInterval(async () => {
+            const res = await fetch('/api/status');
+            const data = await res.json();
+            if(data.opportunity) {
+                document.getElementById('score').innerText = data.opportunity.score;
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
